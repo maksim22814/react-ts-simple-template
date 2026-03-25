@@ -1,12 +1,20 @@
+import { useContext, ReactNode} from "react";
 import Panel from "./shared/ui/Panel";
 import Text from "./shared/ui/Text";
+import { PageContext } from "./app/contexts/PageContext";
+import ShopPage from "./pages/shop/ui/ShopPage";
+import MinePage from "./pages/mine/ui/MinePage";
 
 function App() {
-    return (
-        <Panel margin={25} padding={25}>            {/*|  Удалите пример и        */}
-            <Text size={24}> Hello, React! </Text>  {/*|  создайте свой компонент */}
-    </Panel>                                        
-    );
+    const {page, setPage} = useContext(PageContext)
+    
+    const pages : ReactNode[] =[
+        <MinePage />,
+        <ShopPage />
+    ]
+    return(
+        <>{pages[page]}</>
+    )
 }
 
 export default App;
