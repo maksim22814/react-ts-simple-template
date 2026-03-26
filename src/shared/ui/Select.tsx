@@ -14,10 +14,13 @@ function Select({ options = [], changeAction = () => {}, value, defaultValue }: 
 
     return (
         <select onChange={handleChange} defaultValue={defaultValue} value={value}>
-            {options.map((option) => (
-                <option>{option}</option>
+            {options.map((option, index) => (
+                <option key={index} value={option}>
+                    {option}
+                </option>
             ))}
         </select>
     );
 }
+
 export default Select;

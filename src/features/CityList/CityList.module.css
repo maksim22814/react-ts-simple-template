@@ -1,0 +1,41 @@
+/* src/features/CityList/CityList.module.css */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.addButton {
+    background: #0066cc;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.addButton:hover {
+    background: #0052a3;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}

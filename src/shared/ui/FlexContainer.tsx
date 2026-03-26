@@ -1,5 +1,9 @@
 import { ReactNode } from "react";
-import { FlexAlignContentType, FlexAlignItemsType, FlexDirectionType, FlexWrapType } from "../types/FlexTypes";
+
+type FlexWrapType = "wrap" | "nowrap" | "wrap-reverse";
+type FlexDirectionType = "row" | "column" | "row-reverse" | "column-reverse";
+type FlexAlignContentType = "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "stretch";
+type FlexAlignItemsType = "flex-start" | "flex-end" | "center" | "baseline" | "stretch";
 
 interface IFlexContainerProps {
     children?: ReactNode;
@@ -20,6 +24,7 @@ function FlexContainer({
     justifyContent = "center",
     alignContent = "center",
     alignItems = "center",
+    isFillSpace = false
 }: IFlexContainerProps) {
     return (
         <div
@@ -31,10 +36,12 @@ function FlexContainer({
                 justifyContent: justifyContent,
                 alignContent: alignContent,
                 alignItems: alignItems,
+                ...(isFillSpace && { width: "100%", height: "100%" })
             }}
         >
             {children}
         </div>
     );
 }
+
 export default FlexContainer;

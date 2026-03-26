@@ -1,11 +1,20 @@
-import Panel from "./shared/ui/Panel";
-import Text from "./shared/ui/Text";
+// src/App.tsx
+import { CityProvider } from "./contexts/CityContext";
+import { NavigationProvider } from "./contexts/NavigationContext";
+import MainPage from "./pages/ui/MainPage";
+import MainMenu from "./pages/ui/MainMenu";
+import styles from "./index.module.css"
 
 function App() {
     return (
-        <Panel margin={25} padding={25}>            {/*|  Удалите пример и        */}
-            <Text size={24}> Hello, React! </Text>  {/*|  создайте свой компонент */}
-    </Panel>                                        
+        <CityProvider>
+            <NavigationProvider>
+                <div className={styles.app}>
+                    <MainMenu />
+                    <MainPage />
+                </div>
+            </NavigationProvider>
+        </CityProvider>
     );
 }
 

@@ -10,4 +10,4 @@ export type FlexAlignContentType =
     | "flex-end"
     | "space-around"
     | "space-between";
-export type FlexAlignItemsType = "center" | "flex-start" | "flex-end" | "strech";
+export type FlexAlignItemsType = "center" | "flex-start" | "flex-end" | "stretch";
