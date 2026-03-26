@@ -1,8 +1,10 @@
 // src/features/CityList/CityList.tsx
 import { useCities } from "../../contexts/CityContext";
 import { useNavigation } from "../../contexts/NavigationContext";
-import CityCardView from "../CityCardView/CityCardView";
+import { CityCardView } from "../CityCardView/CityCardView"; // Используем именованный импорт
 import Button from "../../shared/ui/Button";
+import FlexContainer from "../../shared/ui/FlexContainer";
+import Text from "../../shared/ui/Text";
 import styles from "./CityList.module.css"
 
 function CityList() {

@@ -1,39 +1,52 @@
-// src/app/contexts/NavigationContext.tsx
+// src/contexts/NavigationContext.tsx
 import { createContext, useContext, useState, ReactNode } from "react";
 
-export type ScreenType = "list" | "add" | "edit";
+export type ScreenType = "list" | "add" | "edit" | "details";
 
 interface INavigationContext {
     screen: ScreenType;
-    editingCityId: number | null;
+    selectedCityId: number | null;
     goToList: () => void;
     goToAdd: () => void;
     goToEdit: (id: number) => void;
+    goToDetails: (id: number) => void;
 }
 
 const NavigationContext = createContext<INavigationContext | undefined>(undefined);
 
 export function NavigationProvider({ children }: { children: ReactNode }) {
     const [screen, setScreen] = useState<ScreenType>("list");
-    const [editingCityId, setEditingCityId] = useState<number | null>(null);
+    const [selectedCityId, setSelectedCityId] = useState<number | null>(null);
 
     const goToList = () => {
         setScreen("list");
-        setEditingCityId(null);
+        setSelectedCityId(null);
     };
 
     const goToAdd = () => {
         setScreen("add");
-        setEditingCityId(null);
+        setSelectedCityId(null);
     };
 
     const goToEdit = (id: number) => {
         setScreen("edit");
-        setEditingCityId(id);
+        setSelectedCityId(id);
+    };
+
+    const goToDetails = (id: number) => {
+        setScreen("details");
+        setSelectedCityId(id);
     };
 
     return (
-        <NavigationContext.Provider value={{ screen, editingCityId, goToList, goToAdd, goToEdit }}>
+        <NavigationContext.Provider value={{ 
+            screen, 
+            selectedCityId, 
+            goToList, 
+            goToAdd, 
+            goToEdit,
+            goToDetails
+        }}>
             {children}
         </NavigationContext.Provider>
     );

@@ -4,12 +4,13 @@ import { ICity } from "../../entities/City/model";
 import { useCities } from "../../contexts/CityContext";
 import { useNavigation } from "../../contexts/NavigationContext";
 import Button from "../../shared/ui/Button";
+import FlexContainer from "../../shared/ui/FlexContainer";
 import Input from "../../shared/ui/Input";
-import styles from "./EditCityForm.module.css"
+import Text from "../../shared/ui/Text";
 
 function EditCityForm() {
     const { cities, updateCity } = useCities();
-    const { editingCityId, goToList } = useNavigation();
+    const { selectedCityId, goToList } = useNavigation();
     
     const [formData, setFormData] = useState<Omit<ICity, "id">>({
         name: "",
@@ -18,8 +19,8 @@ function EditCityForm() {
     });
 
     useEffect(() => {
-        if (editingCityId) {
-            const city = cities.find(c => c.id === editingCityId);
+        if (selectedCityId) {
+            const city = cities.find(c => c.id === selectedCityId);
             if (city) {
                 setFormData({
                     name: city.name,
@@ -28,64 +29,59 @@ function EditCityForm() {
                 });
             }
         }
-    }, [editingCityId, cities]);
+    }, [selectedCityId, cities]);
 
-    const handleChange = (field: keyof typeof formData, value: string) => {
-        if (field === "population") {
-            const numValue = parseInt(value) || 0;
-            setFormData(prev => ({ ...prev, [field]: numValue }));
-        } else {
-            setFormData(prev => ({ ...prev, [field]: value }));
-        }
+    const handlePopulationChange = (value: string) => {
+        const population = parseInt(value) || 0;
+        setFormData(prev => ({ ...prev, population }));
     };
 
     const handleSubmit = () => {
-        if (!editingCityId) return;
+        if (!selectedCityId) return;
         
         const updatedCity: ICity = {
-            id: editingCityId,
+            id: selectedCityId,
             name: formData.name || "Без названия",
             country: formData.country || "Неизвестна",
             population: formData.population || 0,
         };
-
-        updateCity(editingCityId, updatedCity);
+        updateCity(selectedCityId, updatedCity);
         goToList();
     };
 
+    if (!selectedCityId) return <Text>Город не найден!</Text>;
+
     return (
-        <div className={styles.container}>
-            <h2>Редактирование города</h2>
-            
-            <div className={styles.form}>
-                <Input
-                    placeholder="Название города"
-                    value={formData.name}
-                    changeAction={(value) => handleChange("name", value)}
-                />
-                
-                <Input
-                    placeholder="Страна"
-                    value={formData.country}
-                    changeAction={(value) => handleChange("country", value)}
-                />
-                
-                <Input
-                    placeholder="Население (человек)"
-                    value={formData.population.toString()}
-                    changeAction={(value) => handleChange("population", value)}
-                />
-                
-                <div className={styles.buttons}>
-                    <Button clickAction={handleSubmit}>
-                        Сохранить изменения
-                    </Button>
-                    <Button clickAction={goToList}>
-                        Отмена
-                    </Button>
-                </div>
-            </div>
-        </div>
+        <FlexContainer gap={20}>
+            <Text size={24}>Редактирование города</Text>
+            <FlexContainer alignItems="stretch">
+                <FlexContainer direction="row">
+                    <Text>Название: </Text>
+                    <Input
+                        placeholder="Введите название города"
+                        changeAction={(value) => setFormData({ ...formData, name: value })}
+                        defaultValue={formData.name}
+                    />
+                </FlexContainer>
+                <FlexContainer direction="row">
+                    <Text>Страна: </Text>
+                    <Input
+                        placeholder="Введите страну"
+                        changeAction={(value) => setFormData({ ...formData, country: value })}
+                        defaultValue={formData.country}
+                    />
+                </FlexContainer>
+                <FlexContainer direction="row">
+                    <Text>Население: </Text>
+                    <Input
+                        placeholder="Введите количество жителей"
+                        changeAction={handlePopulationChange}
+                        defaultValue={String(formData.population)}
+                    />
+                </FlexContainer>
+                <Button clickAction={handleSubmit}>Сохранить</Button>
+            </FlexContainer>
+        </FlexContainer>
     );
 }
 

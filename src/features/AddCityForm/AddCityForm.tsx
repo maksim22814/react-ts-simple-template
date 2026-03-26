@@ -4,8 +4,9 @@ import { ICity } from "../../entities/City/model";
 import { useCities } from "../../contexts/CityContext";
 import { useNavigation } from "../../contexts/NavigationContext";
 import Button from "../../shared/ui/Button";
+import FlexContainer from "../../shared/ui/FlexContainer";
 import Input from "../../shared/ui/Input";
-import styles from "./AddCityForm.module.css"
+import Text from "../../shared/ui/Text";
 
 function AddCityForm() {
     const { addCity } = useCities();
@@ -17,13 +18,9 @@ function AddCityForm() {
         population: 0,
     });
 
-    const handleChange = (field: keyof typeof formData, value: string) => {
-        if (field === "population") {
-            const numValue = parseInt(value) || 0;
-            setFormData(prev => ({ ...prev, [field]: numValue }));
-        } else {
-            setFormData(prev => ({ ...prev, [field]: value }));
-        }
+    const handlePopulationChange = (value: string) => {
+        const population = parseInt(value) || 0;
+        setFormData(prev => ({ ...prev, population }));
     };
 
     const handleSubmit = () => {
@@ -33,44 +30,38 @@ function AddCityForm() {
             country: formData.country || "Неизвестна",
             population: formData.population || 0,
         };
-
         addCity(newCity);
         goToList();
     };
 
     return (
-        <div className={styles.container}>
-            <h2>Добавление города</h2>
-            
-            <div className={styles.form}>
-                <Input
-                    placeholder="Название города"
-                    value={formData.name}
-                    changeAction={(value) => handleChange("name", value)}
-                />
-                
-                <Input
-                    placeholder="Страна"
-                    value={formData.country}
-                    changeAction={(value) => handleChange("country", value)}
-                />
-                
-                <Input
-                    placeholder="Население (человек)"
-                    value={formData.population.toString()}
-                    changeAction={(value) => handleChange("population", value)}
-                />
-                
-                <div className={styles.buttons}>
-                    <Button clickAction={handleSubmit}>
-                        Сохранить
-                    </Button>
-                    <Button clickAction={goToList}>
-                        Отмена
-                    </Button>
-                </div>
-            </div>
-        </div>
+        <FlexContainer gap={20}>
+            <Text size={24}>Добавление города</Text>
+            <FlexContainer alignItems="stretch">
+                <FlexContainer direction="row">
+                    <Text>Название: </Text>
+                    <Input
+                        placeholder="Введите название города"
+                        changeAction={(value) => setFormData({ ...formData, name: value })}
+                    />
+                </FlexContainer>
+                <FlexContainer direction="row">
+                    <Text>Страна: </Text>
+                    <Input
+                        placeholder="Введите страну"
+                        changeAction={(value) => setFormData({ ...formData, country: value })}
+                    />
+                </FlexContainer>
+                <FlexContainer direction="row">
+                    <Text>Население: </Text>
+                    <Input
+                        placeholder="Введите количество жителей"
+                        changeAction={handlePopulationChange}
+                    />
+                </FlexContainer>
+                <Button clickAction={handleSubmit}>Сохранить</Button>
+            </FlexContainer>
+        </FlexContainer>
     );
 }
 

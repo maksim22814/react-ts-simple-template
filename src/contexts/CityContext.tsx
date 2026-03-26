@@ -1,4 +1,4 @@
-// src/app/contexts/CityContext.tsx
+// src/contexts/CityContext.tsx
 import { createContext, useContext, useState, ReactNode } from "react";
 import { ICity } from "../entities/City/model";
 
