@@ -19,9 +19,15 @@ const CityContext = createContext<ICityContext | undefined>(undefined);
 
 export function CityProvider({ children }: { children: ReactNode }) {
     const [cities, setCities] = useState<ICity[]>(initialCities);
+    const [nextId, setNextId] = useState<number>(4); // Следующий ID после начальных
 
     const addCity = (city: ICity) => {
-        setCities(prev => [...prev, city]);
+        const newCity = {
+            ...city,
+            id: nextId // Используем счетчик для ID
+        };
+        setCities(prev => [...prev, newCity]);
+        setNextId(prev => prev + 1); // Увеличиваем счетчик
     };
 
     const updateCity = (id: number, updatedCity: ICity) => {
